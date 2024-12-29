@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "parser.h": "c",
+        "calc.h": "c",
+        "stdlib.h": "c",
+        "stddef.h": "c"
+    }
+}
