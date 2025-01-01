@@ -11,10 +11,10 @@
 
 // terminals
 %token <double> NUM
-%token <symrec*> VAR FUN
+%token <Symbol*> VAR FUN
 
 // non-terminals
-%nterm <double> exp
+%nterm <Expression*> exp
 
 %precedence '='
 %left '-' '+'
@@ -31,21 +31,21 @@ input:
 
 line:
     '\n'
-|   exp '\n'    { printf("=> %.10g\n", $1); }
+|   exp '\n'    { printf("=> %.10g\n", evaluate($1)); }
 |   error '\n'  { yyerrok; }
 ;
 
 exp:
-    NUM
-|   VAR                 { $$ = $1->value.var; }
-|   VAR '=' exp         { $$ = $3; $1->value.var = $3; }
-|   FUN '(' exp ')'     { $$ = $1->value.fun ($3); }
-|   exp '+' exp         { $$ = $1 + $3; }
-|   exp '-' exp         { $$ = $1 - $3; }
-|   exp '*' exp         { $$ = $1 * $3; }
-|   exp '/' exp         { $$ = $1 / $3; }
-|   '-' exp %prec NEG   { $$ = -$2; }
-|   exp '^' exp         { $$ = pow($1, $3); }
+    NUM                 { $$ = createNumberExpression($1); }
+|   VAR                 { $$ = createVariableExpression($1); }
+|   VAR '=' exp         { $$ = createSymbolExpression($1, $3); }
+|   FUN '(' exp ')'     { $$ = createSymbolExpression($1, $3); }
+|   exp '+' exp         { $$ = createBinaryOperation(eADD, $1, $3); }
+|   exp '-' exp         { $$ = createBinaryOperation(eSUB, $1, $3); }
+|   exp '*' exp         { $$ = createBinaryOperation(eMUL, $1, $3); }
+|   exp '/' exp         { $$ = createBinaryOperation(eDIV, $1, $3); }
+|   exp '^' exp         { $$ = createBinaryOperation(ePOW, $1, $3); }
+|   '-' exp %prec NEG   { $$ = createUnaryOperation(eNEG, $2); }
 |   '(' exp ')'         { $$ = $2; }
 ;
 

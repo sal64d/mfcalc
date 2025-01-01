@@ -1,32 +1,57 @@
 #ifndef CALC_H
 #define CALC_H
 
-typedef double (func_t) (double);
+typedef enum ExpressionType {
+    // Binary Op
+    eADD,
+    eMUL,
+    eSUB,
+    eDIV,
+    ePOW,
 
-typedef enum symrec_type {
+    // Unary Op
+    eNEG,
+
+    // Val
+    eVAL,
+    eSYM,
+} ExpressionType;
+
+typedef enum SymbolType {
     eFUN,
     eVAR,
-} symrec_type;
+} SymbolType;
 
-typedef struct symrec
+typedef double (func_t) (double);
+
+typedef struct Expression {
+    enum ExpressionType expressionType;
+
+    double number;
+    struct Symbol *symbol;
+    struct Expression *first;
+    struct Expression *second;
+} Expression;
+
+typedef struct Symbol
 {
     char *name;
-    symrec_type type;
+    SymbolType type;
 
     union 
     {
-        double var;
-        func_t *fun;
+        double number;  // Some value
+        func_t *function;    // Some function
     } value;
 
-    struct symrec *next;
+    struct Symbol *next;
     
-} symrec;
+} Symbol;
 
-extern symrec *sym_table;
+extern Symbol *symbolTable;
 
-symrec *putsym (char const *name, symrec_type sym_type);
-symrec *getsym (char const *name);
+Symbol *putsym (char const *name, SymbolType sym_type);
+Symbol *getsym (char const *name);
 
 typedef struct init
 {
@@ -35,5 +60,13 @@ typedef struct init
 } init;
 
 void init_table(void);
+
+Expression* createNumberExpression(double number);
+Expression* createVariableExpression(Symbol* symbol);
+Expression* createSymbolExpression(Symbol* symbol, Expression* first);
+Expression* createUnaryOperation(ExpressionType expressionType, Expression* first);
+Expression* createBinaryOperation(ExpressionType expressionType, Expression* first, Expression* second);
+
+double evaluate(Expression* expression);
 
 #endif

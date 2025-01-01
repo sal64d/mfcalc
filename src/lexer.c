@@ -49,16 +49,17 @@ int yylex (void)
         ungetc (c, stdin);
         symbuf[i] = '\0';
 
-        symrec *s = getsym(symbuf);
+        Symbol *symbol = getsym(symbuf);
 
-        if(s == NULL){
-            s = putsym(symbuf, eVAR);
+        if(symbol == NULL){
+            symbol = putsym(symbuf, eVAR);
         }
-        yylval.VAR = s;
         
-        if(s->type == eVAR){
+        if(symbol->type == eVAR){
+            yylval.VAR = symbol;
             return VAR;
         } else {
+            yylval.FUN = symbol;
             return FUN;
         }
     }
