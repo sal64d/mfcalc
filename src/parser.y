@@ -8,8 +8,6 @@
 %}
 
 %define api.value.type union
-%output "parser.c"
-%header "parser.h"
 
 // terminals
 %token <double> NUM
