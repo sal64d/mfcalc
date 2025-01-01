@@ -1,7 +1,7 @@
 %{
     #include <stdio.h>
     #include <math.h>
-    #include "calc.h"
+    #include "../src/calc.h"
 
     int yylex (void);
     void yyerror (char const *);

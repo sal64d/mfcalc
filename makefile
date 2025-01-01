@@ -5,9 +5,11 @@ SOURCEDIR=./src
 OUT=./build
 SOURCES := $(shell find $(SOURCEDIR) -name '*.c')
 
-# ${SOURCEDIR}/main.c: ${OUT}/parser.c ${OUT}/lexer.c
+run: ${OUT}/mfcalc.out
+	${OUT}/mfcalc.out
+
+${OUT}/mfcalc.out: ${OUT}/parser.c ${SOURCES}
+	${CC} ${CFLAGS} "${OUT}/parser.c" ${SOURCES} -o "${OUT}/mfcalc.out"
 
 ${OUT}/parser.c: ${SOURCEDIR}/parser.y
-	${BISON} -H -o "./build/parser.c" ${SOURCEDIR}/parser.y
-
-# ${OUT}/lexer.c: ${SRC}/lexer.l
+	${BISON} -M old=new -H -o "${OUT}/parser.c" ${SOURCEDIR}/parser.y

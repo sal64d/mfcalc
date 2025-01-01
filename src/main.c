@@ -1,5 +1,5 @@
 #include "calc.h"
-#include "parser.h"
+#include "../build/parser.h"
 
 int main(void){
     init_table();

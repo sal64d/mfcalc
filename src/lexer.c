@@ -4,7 +4,7 @@
 #include <memory.h>
 #include <stdlib.h>
 #include "calc.h"
-#include "parser.h"
+#include "../build/parser.h"
 
 void yyerror (char const *msg){
     fprintf(stderr, "ERROR: %s\n", msg);
