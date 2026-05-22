@@ -6,7 +6,7 @@
 
 init const funs[] = 
 {
-    { "atan", atan },
+    { "tan", tan },
     { "cos", cos },
     { "sin", sin },
     { "ln", log2 },
@@ -97,7 +97,7 @@ Expression* createNumberExpression(double number){
     return expression;
 }
 
-Expression* createVariableExpression(Symbol* symbol){
+Expression* createSymbolValueExpression(char const* identifier){
     Expression *expression = allocateExpression();
 
     if(expression == NULL){
@@ -105,6 +105,7 @@ Expression* createVariableExpression(Symbol* symbol){
     } 
 
     expression->expressionType = eSYM;
+
     expression->symbol = symbol;
 
     return expression;

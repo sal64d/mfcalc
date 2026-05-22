@@ -46,22 +46,13 @@ int yylex (void)
             c = getchar();
         } while(isalnum(c));
 
+        // un-get the last one
         ungetc (c, stdin);
+
+        // set last char as null
         symbuf[i] = '\0';
 
-        Symbol *symbol = getsym(symbuf);
-
-        if(symbol == NULL){
-            symbol = putsym(symbuf, eVAR);
-        }
-        
-        if(symbol->type == eVAR){
-            yylval.VAR = symbol;
-            return VAR;
-        } else {
-            yylval.FUN = symbol;
-            return FUN;
-        }
+        yylval.SYM = symbuf;
     }
 
     return c;

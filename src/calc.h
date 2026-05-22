@@ -62,8 +62,9 @@ typedef struct init
 void init_table(void);
 
 Expression* createNumberExpression(double number);
-Expression* createVariableExpression(Symbol* symbol);
-Expression* createSymbolExpression(Symbol* symbol, Expression* first);
+Expression* createSymbolValueExpression(char const* identifier);
+Expression* createSymbolAssignmentExpression(char const* identifier, Expression* first);
+Expression* createSymbolFunctionExpression(char const* identifier, Expression* first);
 Expression* createUnaryOperation(ExpressionType expressionType, Expression* first);
 Expression* createBinaryOperation(ExpressionType expressionType, Expression* first, Expression* second);
 
